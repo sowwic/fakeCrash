@@ -9,7 +9,7 @@ from PySide2 import QtGui
 from PySide2 import QtWidgets
 
 
-GIF_PATH = "D:/Repos/UsefulTool/helper.ico"
+GIF_PATH = "D:/Repos/fakeCrash/helper.ico"
 
 
 class QHelperWidget(QtWidgets.QLabel):
@@ -37,8 +37,7 @@ class DialogUI(QtWidgets.QDialog):
     def __init__(self, parent=None):
         super(DialogUI, self).__init__(parent)
         self.setWindowTitle("PRANKED")
-        self.setMinimumSize(1000, 1000)
-        self.showMaximized()
+        self.setFixedSize(600, 400)
         helper = QHelperWidget()
         self.mainLayout = QtWidgets.QVBoxLayout(self)
         self.mainLayout.addWidget(helper)
@@ -62,7 +61,6 @@ def showMessageDialog():
     fileName = time.strftime("%Y%m%d.%H%M") + ".ma"
     filePath = os.path.join(pm.internalVar(utd=1), fileName)
     pm.confirmDialog(icon="warning", m="Fatal Error. Attempting to save in {0}".format(filePath), t="maya", button=["OK"], ma="left")
-    time.sleep(3)
 
 
 def ui(*args):
