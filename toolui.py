@@ -9,17 +9,18 @@ from PySide2 import QtGui
 from PySide2 import QtWidgets
 
 
-GIF_PATH = "D:/Repos/fakeCrash/helper.ico"
+GIF_PATH = "D:/Repos/fakeCrash/message.gif"
+RICKROLD = "https://www.youtube.com/watch?v=oHg5SJYRHA0&feature=youtu.be"
 
 
-class QHelperWidget(QtWidgets.QLabel):
+class QGifWidget(QtWidgets.QLabel):
     def __init__(self, parent=None):
-        super(QHelperWidget, self).__init__(parent)
+        super(QGifWidget, self).__init__(parent)
         self.setAlignment(QtCore.Qt.AlignCenter)
         self.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
         fileData = None
-        with open(GIF_PATH, "rb") as helperFile:
-            fileData = helperFile.read()
+        with open(GIF_PATH, "rb") as gifFile:
+            fileData = gifFile.read()
         self.gifByteArray = QtCore.QByteArray(fileData)
         self.gifBuffer = QtCore.QBuffer(self.gifByteArray)
         self.movie = QtGui.QMovie()
@@ -33,14 +34,14 @@ class QHelperWidget(QtWidgets.QLabel):
         self.movie.setScaledSize(self.size())
 
 
-class DialogUI(QtWidgets.QDialog):
+class QGifDialog(QtWidgets.QDialog):
     def __init__(self, parent=None):
-        super(DialogUI, self).__init__(parent)
+        super(QGifDialog, self).__init__(parent)
         self.setWindowTitle("PRANKED")
         self.setFixedSize(600, 400)
-        helper = QHelperWidget()
+        gif = QGifWidget()
         self.mainLayout = QtWidgets.QVBoxLayout(self)
-        self.mainLayout.addWidget(helper)
+        self.mainLayout.addWidget(gif)
 
 
 def mayaMainWindow():
@@ -63,15 +64,19 @@ def showMessageDialog():
     pm.confirmDialog(icon="warning", m="Fatal Error. Attempting to save in {0}".format(filePath), t="maya", button=["OK"], ma="left")
 
 
-def ui(*args):
+def imitateCrash(mode="frank"):
     showMessageDialog()
-    newUI = DialogUI(parent=mayaMainWindow())
-    newUI.exec_()
+    if mode == "frank":
+        gifUI = QGifDialog(parent=mayaMainWindow())
+        gifUI.exec_()
+    if mode == "rick":
+        pm.launch(web=RICKROLD)
 
 
 def addSaveCallback():
-    om.MSceneMessage.addCallback(om.MSceneMessage.kBeforeSave, ui, None)
+    om.MSceneMessage.addCallback(om.MSceneMessage.kBeforeSave, imitateCrash, None)
 
 
 if __name__ == "__main__":
-    ui()
+    # addSaveCallback()
+    imitateCrash(mode="rick")
